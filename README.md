@@ -34,3 +34,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Trade-offs
+
+- **`cacheComponents` and `partialPrefetching` are disabled in `next.config.ts`.** With `cacheComponents` on, every page that reads from MongoDB has to be wrapped in `<Suspense>` or marked `"use cache"` with revalidation rules, and `partialPrefetching` depends on it. For this exercise I chose plain per-request server rendering so a saved page shows up on the public site immediately and the rendering model stays simple. In production with 30+ sites, I'd turn it back on and cache rendered pages with `"use cache"` plus tag-based revalidation, e.g. `` revalidateTag(`page:${siteSlug}:${path}`) `` when a page is saved.
