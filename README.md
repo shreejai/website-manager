@@ -2,21 +2,29 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Requires Node.js and Docker.
 
 ```bash
+cp .env.example .env
+docker compose up -d
+npm install
+npm run seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`docker compose up -d` starts a local MongoDB 7 on `localhost:27017`, which matches the default `MONGODB_URI` in `.env.example`.
+
+**Fallback (no Docker):** create a free [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) M0 cluster, set `MONGODB_URI` in `.env` to its connection string, then skip `docker compose up -d` and run the rest of the commands.
+
+### Environment variables
+
+All variables are listed in `.env.example`. Copy it to `.env` and fill in values. `.env*` files are gitignored (except `.env.example`), so keep secrets out of the repo.
+
+| Variable      | Description                                                          |
+| ------------- | -------------------------------------------------------------------- |
+| `MONGODB_URI` | MongoDB connection string (local Docker by default, or an Atlas URI) |
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
