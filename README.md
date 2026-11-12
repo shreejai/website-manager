@@ -43,6 +43,14 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+## Theming
+
+Each site's theme is applied as inline CSS variables (`--site-*`) on a wrapper element. See `SiteThemeScope` in `src/renderer/SiteThemeScope.tsx` and `themeToCssVars` in `src/lib/site/theme.ts`. Why this approach:
+
+- **No flash of the wrong theme.** The variables are server-rendered into the HTML, so the page arrives already themed.
+- **Scoped.** Themes don't leak, so two sites' themes can sit on one screen (e.g. a side-by-side dev page or a manager preview).
+- **Adding a site is data only.** Site #31 needs a theme record, not a new CSS file or a build step.
+
 ## Trade-offs
 
 - **`cacheComponents` and `partialPrefetching` are disabled in `next.config.ts`.** With `cacheComponents` on, every page that reads from MongoDB has to be wrapped in `<Suspense>` or marked `"use cache"` with revalidation rules, and `partialPrefetching` depends on it. For this exercise I chose plain per-request server rendering so a saved page shows up on the public site immediately and the rendering model stays simple. In production with 30+ sites, I'd turn it back on and cache rendered pages with `"use cache"` plus tag-based revalidation, e.g. `` revalidateTag(`page:${siteSlug}:${path}`) `` when a page is saved.
