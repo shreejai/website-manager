@@ -134,6 +134,7 @@
   --site-on-brand: #ffffff;
   --site-surface: #f1f5f9;
   --site-text: #0f172a;
+  --site-bg: #ffffff;
   --site-radius: 0.5rem;
   --site-font: ui-sans-serif, system-ui, sans-serif;
 }
@@ -143,6 +144,7 @@
   --color-site-on-brand: var(--site-on-brand);
   --color-site-surface: var(--site-surface);
   --color-site-text: var(--site-text);
+  --color-site-bg: var(--site-bg);
   --radius-site: var(--site-radius);
   --font-site: var(--site-font);
 }
