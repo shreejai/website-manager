@@ -23,3 +23,9 @@ export async function getDb(): Promise<Db> {
   const client = await clientPromise;
   return client.db(); // uses the database name from the URI
 }
+
+/** For scripts (seed) only. The Next app keeps its connection open. */
+export async function closeDb(): Promise<void> {
+  const client = await clientPromise;
+  await client.close();
+}
