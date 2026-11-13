@@ -51,6 +51,19 @@ Each site's theme is applied as inline CSS variables (`--site-*`) on a wrapper e
 - **Scoped.** Themes don't leak, so two sites' themes can sit on one screen (e.g. a side-by-side dev page or a manager preview).
 - **Adding a site is data only.** Site #31 needs a theme record, not a new CSS file or a build step.
 
+## Data model
+
+Pages live in their own `pages` collection, keyed by `(siteSlug, path)` with a unique index, instead of being embedded in the site document. See `src/lib/db/collections.ts`. Why:
+
+- **Avoids the 16 MB document cap.** MongoDB documents can't exceed 16 MB, and a site with hundreds of pages would hit that limit.
+- **Small reads.** Every request loads exactly one small page document.
+- **Cheap writes.** Editing one page never rewrites the whole site.
+
 ## Trade-offs
 
 - **`cacheComponents` and `partialPrefetching` are disabled in `next.config.ts`.** With `cacheComponents` on, every page that reads from MongoDB has to be wrapped in `<Suspense>` or marked `"use cache"` with revalidation rules, and `partialPrefetching` depends on it. For this exercise I chose plain per-request server rendering so a saved page shows up on the public site immediately and the rendering model stays simple. In production with 30+ sites, I'd turn it back on and cache rendered pages with `"use cache"` plus tag-based revalidation, e.g. `` revalidateTag(`page:${siteSlug}:${path}`) `` when a page is saved.
+- **Sites are served under a path prefix, not their own domains.** Each public site lives at `/sites/<slug>`, so internal links stored in page data include that prefix (e.g. `/sites/harbour-rugby/about`). In production each site would have its own domain, resolved from the request host in `proxy.ts` (Next 16's replacement for middleware), and links would be just `/about`.
+
+## What I'd do next
+
+- **Per-site navigation.** The header nav in `src/renderer/SiteHeader.tsx` is hardcoded to Home and About for every site. The proper version stores a `nav` array (label + path) on each site in the seed data and renders it from there, so each site controls its own menu.
