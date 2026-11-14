@@ -59,6 +59,16 @@ Pages live in their own `pages` collection, keyed by `(siteSlug, path)` with a u
 - **Small reads.** Every request loads exactly one small page document.
 - **Cheap writes.** Editing one page never rewrites the whole site.
 
+## Component fields
+
+Each component describes its editable props with a small custom field format, and the manager builds the editing form from it. See `src/registry/fields.ts`. Why a custom format rather than Zod or JSON Schema:
+
+- **It describes the editing UI.** Fields carry labels, help text, item labels and "image" as a concept. Zod describes validation, so you'd have to bolt UI metadata onto it.
+- **Five kinds are enough.** `text`, `select`, `image`, `object` and `list`, plus an `optional` flag, cover lists, nested objects and optional fields, which is everything the brief asks for.
+- **It's small.** The whole format can be explained in the follow-up without notes.
+
+**Trade-off:** there's no validation on save yet. The natural next step is generating a Zod schema from these fields and validating in the save action.
+
 ## Trade-offs
 
 - **`cacheComponents` and `partialPrefetching` are disabled in `next.config.ts`.** With `cacheComponents` on, every page that reads from MongoDB has to be wrapped in `<Suspense>` or marked `"use cache"` with revalidation rules, and `partialPrefetching` depends on it. For this exercise I chose plain per-request server rendering so a saved page shows up on the public site immediately and the rendering model stays simple. In production with 30+ sites, I'd turn it back on and cache rendered pages with `"use cache"` plus tag-based revalidation, e.g. `` revalidateTag(`page:${siteSlug}:${path}`) `` when a page is saved.
