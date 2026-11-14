@@ -67,7 +67,7 @@ Each component describes its editable props with a small custom field format, an
 - **Five kinds are enough.** `text`, `select`, `image`, `object` and `list`, plus an `optional` flag, cover lists, nested objects and optional fields, which is everything the brief asks for.
 - **It's small.** The whole format can be explained in the follow-up without notes.
 
-**Trade-off:** there's no validation on save yet. The natural next step is generating a Zod schema from these fields and validating in the save action.
+**Trade-off:** `validateTree` in `src/lib/page/validate.ts` checks the page's structure only (ids, known component types, props being an object, children only where allowed). It doesn't check individual prop values against their fields. See "What I'd do next".
 
 ## Trade-offs
 
@@ -76,4 +76,5 @@ Each component describes its editable props with a small custom field format, an
 
 ## What I'd do next
 
+- **Validate prop values against their fields.** Generate a Zod schema from each component's `FieldMap` (text → string, image → `{ url, alt }`, list → array, `optional` → `.optional()`) and run it alongside `validateTree`, so a save can't store a card with a missing heading or a malformed image.
 - **Per-site navigation.** The header nav in `src/renderer/SiteHeader.tsx` is hardcoded to Home and About for every site. The proper version stores a `nav` array (label + path) on each site in the seed data and renders it from there, so each site controls its own menu.
