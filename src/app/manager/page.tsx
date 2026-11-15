@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { listSites } from "@/lib/db/sites";
+import { connection } from "next/server";
 
 export default async function ManagerHome() {
+  await connection(); // render per request, not at build time
   const sites = await listSites();
 
   return (
