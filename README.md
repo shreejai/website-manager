@@ -184,7 +184,7 @@ The document doesn't depend on React, Next.js or the manager. Any renderer that 
                 "cards": [
                   {
                     "image": {
-                      "url": "https://picsum.photos/seed/hr-j1/600/450",
+                      "url": "https://images.unsplash.com/photo-1679183446745-90d449f8ede0?w=600&h=450&fit=crop&auto=format",
                       "alt": "Juniors"
                     },
                     "heading": "Register for 2027",
@@ -204,7 +204,7 @@ The document doesn't depend on React, Next.js or the manager. Any renderer that 
                 "cards": [
                   {
                     "image": {
-                      "url": "https://picsum.photos/seed/hr-w1/600/450",
+                      "url": "https://images.unsplash.com/photo-1534583000938-a375b825ea16?w=600&h=450&fit=crop&auto=format",
                       "alt": "Women's team"
                     },
                     "heading": "Premier grade draw"

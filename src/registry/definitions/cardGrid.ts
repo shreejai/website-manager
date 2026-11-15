@@ -44,7 +44,7 @@ export const cardGridBlock = defineBlock<CardGridProps>({
     cards: [
       {
         image: {
-          url: "https://picsum.photos/seed/new-card/600/450",
+          url: "https://images.unsplash.com/photo-1679183446745-90d449f8ede0?w=600&h=450&fit=crop&auto=format",
           alt: "Placeholder image",
         },
         heading: "New card",
