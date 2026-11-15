@@ -12,8 +12,8 @@ type ImageProps = {
  * (Trade-off worth a README line.)
  */
 export function Image({ src, alt, className }: ImageProps) {
-  // eslint-disable-next-line @next/next/no-img-element
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt={alt}
