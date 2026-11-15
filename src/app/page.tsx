@@ -27,7 +27,6 @@ export default async function Home() {
           <Link href="/manager" className="underline">
             Manager
           </Link>{" "}
-          (coming in Phase 5)
         </li>
       </ul>
     </main>
